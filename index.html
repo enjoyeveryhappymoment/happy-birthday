@@ -3,9 +3,266 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Happy Birthday Countdown</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            overflow: hidden;
+            animation: backgroundAnimation 30s infinite alternate;
+        }
+
+        @keyframes backgroundAnimation {
+            0% {
+                background: linear-gradient(to bottom, #ff9a9e, #fad0c4);
+            }
+            50% {
+                background: linear-gradient(to bottom, #a1c4fd, #c2e9fb);
+            }
+            100% {
+                background: linear-gradient(to bottom, #ff5e57, #ffb6b9);
+            }
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: #fff;
+            margin: 10px 0;
+        }
+
+        .timer {
+            font-size: 2rem;
+            color: #fff;
+            margin: 20px 0;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        #celebrateButton {
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            color: #fff;
+            background: #ff5e57;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+            transition: background 0.3s;
+        }
+
+        #celebrateButton:hover {
+            background: #ff3b30;
+        }
+
+        .floating-images {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
+        }
+
+        .image {
+            position: absolute;
+            width: 40px; /* Emoji size */
+            font-size: 40px;
+            pointer-events: none;
+            user-select: none;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            .timer {
+                font-size: 1.5rem;
+            }
+
+            #celebrateButton {
+                font-size: 1rem;
+                padding: 10px 20px;
+            }
+        }
+    </style>
 </head>
 <body>
-    
+    <h1>Happy Birthday Countdown</h1>
+    <div class="timer" id="countdownTimer"></div>
+    <button id="celebrateButton" class="hidden">Click to Celebrate!</button>
+    <div class="floating-images" id="floatingImages"></div>
+    <canvas class="fireworks hidden" id="fireworks"></canvas>
+
+    <script>
+        const countdownTimer = document.getElementById("countdownTimer");
+        const celebrateButton = document.getElementById("celebrateButton");
+        const fireworksCanvas = document.getElementById("fireworks");
+        const floatingImages = document.getElementById("floatingImages");
+        const endDate = new Date("2025-01-23T00:23:00");
+
+        // HTML entity for heart emoji
+        const imageList = [
+            "&#10084;&#65039;" // Heart emoji
+        ];
+
+        function updateTimer() {
+            const now = new Date();
+            const remainingTime = endDate - now;
+
+            if (remainingTime <= 0) {
+                countdownTimer.textContent = "It's time to celebrate!";
+                celebrateButton.classList.remove("hidden");
+                fireworksCanvas.classList.remove("hidden");
+                floatingImages.classList.add("hidden");
+                startFireworks();
+                return;
+            }
+
+            const days = Math.floor(remainingTime / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((remainingTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((remainingTime % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((remainingTime % (1000 * 60)) / 1000);
+
+            countdownTimer.textContent = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+        }
+
+        class FloatingImage {
+            constructor() {
+                this.element = document.createElement("div");
+                this.element.classList.add("image");
+                this.x = Math.random() * window.innerWidth;
+                this.y = Math.random() * window.innerHeight; // Random starting position
+                this.dx = 0.5 + Math.random() * 2; // Slower horizontal speed
+                this.dy = 0.5 + Math.random() * 2; // Slower vertical speed
+                this.imageEntity = imageList[Math.floor(Math.random() * imageList.length)];
+                this.element.innerHTML = this.imageEntity;
+                this.updatePosition();
+                floatingImages.appendChild(this.element);
+            }
+
+            updatePosition() {
+                this.element.style.left = this.x + "px";
+                this.element.style.top = this.y + "px";
+            }
+
+            move() {
+                this.x += this.dx;
+                this.y += this.dy;
+
+                // Bounce back from the edges
+                if (this.x + 40 >= window.innerWidth || this.x <= 0) {
+                    this.dx = -this.dx; // Reverse horizontal direction
+                }
+
+                if (this.y + 40 >= window.innerHeight || this.y <= 0) {
+                    this.dy = -this.dy; // Reverse vertical direction
+                }
+
+                this.updatePosition();
+            }
+
+            randomMove() {
+                // Move in a random direction when touched
+                const randomAngle = Math.random() * 2 * Math.PI;
+                const speed = 3 + Math.random() * 3; // Slower random speed
+                this.dx = Math.cos(randomAngle) * speed;
+                this.dy = Math.sin(randomAngle) * speed;
+            }
+        }
+
+        const images = [];
+        // Increased heart emoji count
+        for (let i = 0; i < 15; i++) {
+            images.push(new FloatingImage());
+        }
+
+        function animateImages() {
+            images.forEach((image) => {
+                image.move();
+            });
+            requestAnimationFrame(animateImages);
+        }
+
+        // Touch event to make the image move in a random direction
+        floatingImages.addEventListener("click", (event) => {
+            const image = images.find((image) => {
+                const rect = image.element.getBoundingClientRect();
+                return (
+                    event.clientX >= rect.left &&
+                    event.clientX <= rect.right &&
+                    event.clientY >= rect.top &&
+                    event.clientY <= rect.bottom
+                );
+            });
+
+            if (image) {
+                image.randomMove();
+            }
+        });
+
+        function startFireworks() {
+            const canvas = fireworksCanvas;
+            const ctx = canvas.getContext("2d");
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
+            const fireworks = [];
+            const colors = ["#ff5e57", "#ffe066", "#75c4fd", "#7dff7a"];
+
+            class Firework {
+                constructor(x, y) {
+                    this.x = x;
+                    this.y = y;
+                    this.size = Math.random() * 3 + 2;
+                    this.speed = Math.random() * 4 + 2;
+                    this.color = colors[Math.floor(Math.random() * colors.length)];
+                }
+                update() {
+                    this.y -= this.speed;
+                    this.size *= 0.95;
+                }
+                draw() {
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                    ctx.fillStyle = this.color;
+                    ctx.fill();
+                }
+            }
+
+            function animate() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+                fireworks.push(new Firework(Math.random() * canvas.width, canvas.height));
+                fireworks.forEach((firework, index) => {
+                    firework.update();
+                    firework.draw();
+
+                    if (firework.size < 0.5) {
+                        fireworks.splice(index, 1);
+                    }
+                });
+
+                requestAnimationFrame(animate);
+            }
+
+            animate();
+        }
+
+        setInterval(updateTimer, 1000);
+        animateImages();
+
+        celebrateButton.addEventListener("click", () => {
+            window.location.href = "celebrate.html";
+        });
+    </script>
 </body>
 </html>
