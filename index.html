@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Happy Birthday Countdown</title>
+    <title>Happy Birthday Juggi🤗🥰</title>
     <style>
         body {
             margin: 0;
@@ -16,7 +16,7 @@
             font-family: 'Arial', sans-serif;
             text-align: center;
             overflow: hidden;
-            animation: backgroundAnimation 30s infinite alternate;
+            background: radial-gradient(circle, #ffffff, #ff0000);
         }
 
         @keyframes backgroundAnimation {
@@ -78,6 +78,60 @@
             pointer-events: none;
             user-select: none;
         }
+        .balloon {
+            position: absolute;
+            bottom: -100px;
+            width: 60px;
+            height: 80px;
+            background: radial-gradient(circle at 30% 30%, #ff5e57, #ff3b30);
+            border-radius: 50%;
+            box-shadow: inset -5px -5px 15px rgba(255, 255, 255, 0.8), 5px 5px 10px rgba(0, 0, 0, 0.2);
+            animation: floatUp 8s ease-in-out infinite;
+            z-index: 1;
+        }
+
+        .balloon::after {
+            content: "";
+            position: absolute;
+            bottom: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 2px;
+            height: 20px;
+            background: #333;
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(0) scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-120vh) scale(1.1);
+                opacity: 0;
+            }
+        }
+
+        .three-d {
+  background: linear-gradient(145deg, #FF6F61, #D4A5A5);
+  border: 2px solid #ccc;
+  box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.2), -4px -4px 8px rgba(255, 255, 255, 0.6);
+  border-radius: 12px;
+  font-size: 16px;
+  color: #333;
+  padding: 10px 20px;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.three-d:hover {
+  transform: translateY(-4px);
+  box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.3), -6px -6px 12px rgba(255, 255, 255, 0.7);
+}
+
+.three-d:active {
+  transform: translateY(2px);
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2), -2px -2px 4px rgba(255, 255, 255, 0.6);
+}
 
         @media (max-width: 768px) {
             h1 {
@@ -96,9 +150,9 @@
     </style>
 </head>
 <body>
-    <h1>Happy Birthday Countdown</h1>
+    <h1 id="h1tag">Happy Birthday Countdown</h1>
     <div class="timer" id="countdownTimer"></div>
-    <button id="celebrateButton" class="hidden">Click to Celebrate!</button>
+    <button id="celebrateButton" class="hidden  three-d" style="z-index: 3;">Click to Celebrate!</button>
     <div class="floating-images" id="floatingImages"></div>
     <canvas class="fireworks hidden" id="fireworks"></canvas>
 
@@ -107,7 +161,8 @@
         const celebrateButton = document.getElementById("celebrateButton");
         const fireworksCanvas = document.getElementById("fireworks");
         const floatingImages = document.getElementById("floatingImages");
-        const endDate = new Date("2025-02-02T00:00:00");
+        const endDate = new Date("2025-01-27T11:48:00");
+        const h1tag = document.getElementById("h1tag");
 
         // HTML entity for heart emoji
         const imageList = [
@@ -119,11 +174,14 @@
             const remainingTime = endDate - now;
 
             if (remainingTime <= 0) {
-                countdownTimer.textContent = "It's time to celebrate!";
+                countdownTimer.classList.add("hidden");
                 celebrateButton.classList.remove("hidden");
                 fireworksCanvas.classList.remove("hidden");
                 floatingImages.classList.add("hidden");
-                startFireworks();
+                h1tag.textContent = "Unlock the surprise...!!!";
+                h1tag.style.zIndex=3
+                h1tag.style.fontSize = '25px'
+                createBalloons();
                 return;
             }
 
@@ -209,6 +267,20 @@
             }
         });
 
+        function createBalloons() {
+            const colors = ["#ff5e57", "#ffe066", "#75c4fd", "#7dff7a", "#ffa3ef"];
+            for (let i = 0; i < 5; i++) {
+                const balloon = document.createElement("div");
+                balloon.classList.add("balloon");
+                balloon.style.left = Math.random() * window.innerWidth + "px";
+                balloon.style.background = `radial-gradient(circle at 30% 30%, ${colors[Math.floor(Math.random() * colors.length)]}, #000)`;
+                document.body.appendChild(balloon);
+
+                balloon.addEventListener("animationend", () => {
+                    balloon.remove();
+                });
+            }
+        }
         function startFireworks() {
             const canvas = fireworksCanvas;
             const ctx = canvas.getContext("2d");
@@ -261,6 +333,10 @@
         animateImages();
 
         celebrateButton.addEventListener("click", () => {
+            alert('Cant want to see the surprise ? '+'\n'+'by clicking ok u will go closer to the suprise')
+            alert('Aaram se itni v jldi kya hai tumhare liye hi hai dekh lena !!!!.....😁 '+'\n'+'chalo ab next jao .....😊👇🏻')
+            alert('Surprise se phle Many Many happy returns of the all your dream comes true and i will pray from god for you so this year will be more happy then the last one and u can achieve all what u want with your hard work .......😍'+'\n'+'Next .....😊👇🏻')
+            alert('Ab jada wait nhi krvayenge your surprise is waiting for you 🤗🥰')
             window.location.href = "celebrate.html";
         });
     </script>

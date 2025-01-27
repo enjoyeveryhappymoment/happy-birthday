@@ -4,8 +4,198 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+            background-color: #f0f0f0;
+            position: relative;
+            height: 100vh;
+            margin: 0;
+            perspective: 1500px; /* Add perspective for 3D effect */
+        }
+
+        /* Bubble styles */
+        .bubble {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.7;
+            animation: bubbleMovement 8s infinite;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3); /* 3D shadow effect */
+            transform-origin: center; /* Rotate around the center for 3D effect */
+        }
+
+        /* Text container styles */
+        .text-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 20px;
+            font-family: cursive;
+            color: #333;
+            line-height: 1.5;
+            width: 90%;
+            max-width: 800px;
+            white-space: normal; /* Allow text to wrap to next line */
+            overflow: hidden;
+            height: auto;
+            word-wrap: break-word; /* Ensure long words break and wrap */
+            margin: 20px; /* Add margin around the text */
+        }
+
+        /* Radial gradient colors for bubbles */
+        .bubble:nth-child(1) {
+            background-image: radial-gradient(circle, rgba(255, 182, 193, 0.7), rgba(255, 20, 147, 0.7)); /* Light pink to deep pink */
+        }
+        .bubble:nth-child(2) {
+            background-image: radial-gradient(circle, rgba(173, 216, 230, 0.7), rgba(135, 206, 235, 0.7)); /* Light blue to sky blue */
+        }
+        .bubble:nth-child(3) {
+            background-image: radial-gradient(circle, rgba(255, 228, 196, 0.7), rgba(255, 99, 71, 0.7)); /* Peach to coral */
+        }
+        .bubble:nth-child(4) {
+            background-image: radial-gradient(circle, rgba(240, 255, 240, 0.7), rgba(0, 255, 255, 0.7)); /* Mint green to cyan */
+        }
+        .bubble:nth-child(5) {
+            background-image: radial-gradient(circle, rgba(255, 239, 174, 0.7), rgba(255, 140, 0, 0.7)); /* Light yellow to orange */
+        }
+        .bubble:nth-child(6) {
+            background-image: radial-gradient(circle, rgba(255, 105, 180, 0.7), rgba(255, 0, 255, 0.7)); /* Hot pink to violet */
+        }
+        .bubble:nth-child(7) {
+            background-image: radial-gradient(circle, rgba(144, 238, 144, 0.7), rgba(34, 139, 34, 0.7)); /* Light green to forest green */
+        }
+        .bubble:nth-child(8) {
+            background-image: radial-gradient(circle, rgba(135, 206, 235, 0.7), rgba(0, 0, 255, 0.7)); /* Sky blue to blue */
+        }
+        .bubble:nth-child(9) {
+            background-image: radial-gradient(circle, rgba(255, 99, 71, 0.7), rgba(255, 69, 0, 0.7)); /* Tomato red to red */
+        }
+        .bubble:nth-child(10) {
+            background-image: radial-gradient(circle, rgba(255, 165, 0, 0.7), rgba(255, 69, 0, 0.7)); /* Orange to red */
+        }
+        .bubble:nth-child(11) {
+            background-image: radial-gradient(circle, rgba(255, 105, 180, 0.7), rgba(186, 85, 211, 0.7)); /* Hot pink to medium orchid */
+        }
+        .bubble:nth-child(12) {
+            background-image: radial-gradient(circle, rgba(144, 238, 144, 0.7), rgba(50, 205, 50, 0.7)); /* Pale green to lime green */
+        }
+        .bubble:nth-child(13) {
+            background-image: radial-gradient(circle, rgba(135, 206, 235, 0.7), rgba(70, 130, 180, 0.7)); /* Sky blue to steel blue */
+        }
+        .bubble:nth-child(14) {
+            background-image: radial-gradient(circle, rgba(255, 99, 71, 0.7), rgba(255, 140, 0, 0.7)); /* Tomato red to dark orange */
+        }
+        .bubble:nth-child(15) {
+            background-image: radial-gradient(circle, rgba(255, 165, 0, 0.7), rgba(255, 20, 147, 0.7)); /* Orange to deep pink */
+        }
+    </style>
 </head>
 <body>
-    
+
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+
+    <!-- Text container for letter by letter typing -->
+    <div class="text-container" id="textContainer">
+        <p id="text"></p>
+    </div>
+
+    <script>
+        const bubbles = document.querySelectorAll('.bubble');
+        const screenWidth = window.innerWidth;
+        const screenHeight = window.innerHeight;
+
+        // Function to randomly position and animate the bubbles
+        function randomizeBubbles() {
+            bubbles.forEach(bubble => {
+                const size = Math.random() * 30 + 40; // Random size between 30px and 80px
+                bubble.style.width = `${size}px`;
+                bubble.style.height = `${size}px`;
+
+                const randomXStart = Math.random() * (screenWidth - size);
+                const randomYStart = Math.random() * (screenHeight - size);
+                bubble.style.left = `${randomXStart}px`;
+                bubble.style.top = `${randomYStart}px`;
+
+                const speed = Math.random() * 1.5 + 0.5; // Speed between 1 and 3
+                const directionX = Math.random() * 2 - 1; // Random X direction (-1 to 1)
+                const directionY = Math.random() * 2 - 1; // Random Y direction (-1 to 1)
+
+                bubble.dataset.directionX = directionX;
+                bubble.dataset.directionY = directionY;
+                bubble.dataset.speed = speed;
+            });
+        }
+
+        function moveBubbles() {
+            bubbles.forEach(bubble => {
+                const directionX = parseFloat(bubble.dataset.directionX);
+                const directionY = parseFloat(bubble.dataset.directionY);
+                const speed = parseFloat(bubble.dataset.speed);
+
+                let newX = bubble.offsetLeft + (speed * directionX);
+                let newY = bubble.offsetTop + (speed * directionY);
+
+                if (newX <= 0 || newX + bubble.offsetWidth >= screenWidth) {
+                    bubble.dataset.directionX = (Math.random() * 2 - 1);
+                }
+
+                if (newY <= 0 || newY + bubble.offsetHeight >= screenHeight) {
+                    bubble.dataset.directionY = (Math.random() * 2 - 1);
+                }
+
+                const rotationX = (Math.random() * 5) - 2.5;
+                const rotationY = (Math.random() * 5) - 2.5;
+                bubble.style.transform = `rotateX(${rotationX}deg) rotateY(${rotationY}deg)`;
+
+                newX = Math.max(0, Math.min(newX, screenWidth - bubble.offsetWidth));
+                newY = Math.max(0, Math.min(newY, screenHeight - bubble.offsetHeight));
+
+                bubble.style.left = `${newX}px`;
+                bubble.style.top = `${newY}px`;
+            });
+        }
+
+        randomizeBubbles();
+        setInterval(moveBubbles, 16); // 60 FPS (16ms per frame)
+
+        const textElement = document.getElementById('text');
+        const textToDisplay = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla consequat enim nisi, quis fermentum mi tristique sed. Morbi quis urna ac purus accumsan varius. Fusce eget enim vel leo tristique tristique. Nam hendrerit nulla quis erat condimentum volutpat. Sed et dui eu nunc euismod placerat. Praesent euismod, nisi non volutpat tempor, libero nunc facilisis metus, eu lacinia odio nisl at erat. Vivamus finibus erat vel dui finibus tincidunt. Cras tristique, odio et lacinia placerat, orci enim elementum mi, at pretium urna turpis eu mauris.";
+        
+        let i = 0;
+        function typeText() {
+            if (i < textToDisplay.length) {
+                textElement.textContent += textToDisplay.charAt(i);
+                i++;
+                setTimeout(typeText, 20); // Typing speed (20ms per character)
+            } else {
+                // Ensure page scrolls to the bottom when text finishes typing
+                window.scrollTo(0, document.body.scrollHeight);
+            }
+        }
+
+        typeText();
+
+        setInterval(function () {
+            window.scrollBy(0, 2); // Adjust the scroll speed if necessary
+        }, 20); // Auto-scroll interval (adjust if necessary)
+
+    </script>
+
 </body>
 </html>
