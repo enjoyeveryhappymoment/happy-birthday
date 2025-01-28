@@ -7,12 +7,37 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            overflow: hidden;
+            overflow: hidden; /* Disable manual scrolling */
             background-color: #f0f0f0;
             position: relative;
             height: 100vh;
             margin: 0;
             perspective: 1500px; /* Add perspective for 3D effect */
+        }
+
+        /* Background container */
+        .background-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: row;
+            animation: scrollImages 15s linear infinite; /* Horizontal scroll */
+            z-index: -1; /* Send the background images behind the other elements */
+            justify-content: center; /* Center horizontally */
+            align-items: center; /* Center vertically */
+        }
+
+        /* Background images */
+        .background-image {
+            width: 100vw; /* Full viewport width */
+            height: 98vh; /* Full viewport height */
+            opacity: 0.5; /* Add some opacity */
+            object-fit: cover; /* Ensure the image covers the container without distortion */
+            border-radius: 24px;
+            margin: 1% 2% 0% 0%;
         }
 
         /* Bubble styles */
@@ -23,6 +48,7 @@
             animation: bubbleMovement 8s infinite;
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.3); /* 3D shadow effect */
             transform-origin: center; /* Rotate around the center for 3D effect */
+            z-index: 10; /* Ensure bubbles are in front of the background */
         }
 
         /* Text container styles */
@@ -42,6 +68,17 @@
             height: auto;
             word-wrap: break-word; /* Ensure long words break and wrap */
             margin: 20px; /* Add margin around the text */
+            z-index: 2; /* Ensure text is in front of the bubbles */
+        }
+
+        /* Keyframe for background image scroll */
+        @keyframes scrollImages {
+            0% {
+                transform: translateX(100%);
+            }
+            100% {
+                transform: translateX(-200%);
+            }
         }
 
         /* Radial gradient colors for bubbles */
@@ -90,10 +127,82 @@
         .bubble:nth-child(15) {
             background-image: radial-gradient(circle, rgba(255, 165, 0, 0.7), rgba(255, 20, 147, 0.7)); /* Orange to deep pink */
         }
+        .bubble:nth-child(16) {
+            background-image: radial-gradient(circle, rgba(255, 182, 193, 0.7), rgba(255, 20, 147, 0.7)); /* Light pink to deep pink */
+        }
+        .bubble:nth-child(17) {
+            background-image: radial-gradient(circle, rgba(173, 216, 230, 0.7), rgba(135, 206, 235, 0.7)); /* Light blue to sky blue */
+        }
+        .bubble:nth-child(18) {
+            background-image: radial-gradient(circle, rgba(255, 228, 196, 0.7), rgba(255, 99, 71, 0.7)); /* Peach to coral */
+        }
+        .bubble:nth-child(19) {
+            background-image: radial-gradient(circle, rgba(240, 255, 240, 0.7), rgba(0, 255, 255, 0.7)); /* Mint green to cyan */
+        }
+        .bubble:nth-child(20) {
+            background-image: radial-gradient(circle, rgba(255, 239, 174, 0.7), rgba(255, 140, 0, 0.7)); /* Light yellow to orange */
+        }
+        .bubble:nth-child(21) {
+            background-image: radial-gradient(circle, rgba(255, 105, 180, 0.7), rgba(255, 0, 255, 0.7)); /* Hot pink to violet */
+        }
+        .bubble:nth-child(22) {
+            background-image: radial-gradient(circle, rgba(144, 238, 144, 0.7), rgba(34, 139, 34, 0.7)); /* Light green to forest green */
+        }
+        .bubble:nth-child(23) {
+            background-image: radial-gradient(circle, rgba(135, 206, 235, 0.7), rgba(0, 0, 255, 0.7)); /* Sky blue to blue */
+        }
+        .bubble:nth-child(24) {
+            background-image: radial-gradient(circle, rgba(255, 99, 71, 0.7), rgba(255, 69, 0, 0.7)); /* Tomato red to red */
+        }
+        .bubble:nth-child(25) {
+            background-image: radial-gradient(circle, rgba(255, 165, 0, 0.7), rgba(255, 69, 0, 0.7)); /* Orange to red */
+        }
+        .bubble:nth-child(26) {
+            background-image: radial-gradient(circle, rgba(255, 105, 180, 0.7), rgba(186, 85, 211, 0.7)); /* Hot pink to medium orchid */
+        }
+        .bubble:nth-child(27) {
+            background-image: radial-gradient(circle, rgba(144, 238, 144, 0.7), rgba(50, 205, 50, 0.7)); /* Pale green to lime green */
+        }
+        .bubble:nth-child(28) {
+            background-image: radial-gradient(circle, rgba(135, 206, 235, 0.7), rgba(70, 130, 180, 0.7)); /* Sky blue to steel blue */
+        }
+        .bubble:nth-child(29) {
+            background-image: radial-gradient(circle, rgba(255, 99, 71, 0.7), rgba(255, 140, 0, 0.7)); /* Tomato red to dark orange */
+        }
+        .bubble:nth-child(30) {
+            background-image: radial-gradient(circle, rgba(255, 165, 0, 0.7), rgba(255, 20, 147, 0.7)); /* Orange to deep pink */
+        }
     </style>
 </head>
 <body>
 
+    <!-- Background container with scrolling images -->
+    <div class="background-container">
+        <img class="background-image" src="Assets/IMG-1.jpg" alt="Background Image 1">
+        <img class="background-image" src="Assets/IMG-3.jpg" alt="Background Image 3">
+        <img class="background-image" src="Assets/IMG-4.jpg" alt="Background Image 3">
+        <img class="background-image" src="Assets/IMG-10.jpg" alt="Background Image 3">
+        <img class="background-image" src="Assets/IMG-2.jpg" alt="Background Image 2">
+        <img class="background-image" src="Assets/IMG-5.jpg" alt="Background Image 3">
+        <img class="background-image" src="Assets/IMG-6.jpg" alt="Background Image 3">
+        <img class="background-image" src="Assets/IMG-7.jpg" alt="Background Image 3">
+    </div>
+
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
     <div class="bubble"></div>
     <div class="bubble"></div>
     <div class="bubble"></div>
@@ -116,6 +225,25 @@
     </div>
 
     <script>
+         const backgroundAudio = new Audio("Assets/Happy_Birthday_Ringtone_Flute.m4a");
+        backgroundAudio.loop = true;
+
+        // This method will handle the audio play logic
+        function playAudio() {
+            backgroundAudio.play()
+                .then(() => {
+                    console.log("Audio started successfully.");
+                })
+                .catch((error) => {
+                    console.error("Error playing audio:", error);
+                });
+        }
+        document.body.addEventListener('click', () => {
+            if (localStorage.getItem('isCLicked')) {
+                localStorage.setItem('isCLicked', 'true');
+                playAudio();
+            }
+        });
         const bubbles = document.querySelectorAll('.bubble');
         const screenWidth = window.innerWidth;
         const screenHeight = window.innerHeight;
@@ -175,7 +303,7 @@
         setInterval(moveBubbles, 16); // 60 FPS (16ms per frame)
 
         const textElement = document.getElementById('text');
-        const textToDisplay = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla consequat enim nisi, quis fermentum mi tristique sed. Morbi quis urna ac purus accumsan varius. Fusce eget enim vel leo tristique tristique. Nam hendrerit nulla quis erat condimentum volutpat. Sed et dui eu nunc euismod placerat. Praesent euismod, nisi non volutpat tempor, libero nunc facilisis metus, eu lacinia odio nisl at erat. Vivamus finibus erat vel dui finibus tincidunt. Cras tristique, odio et lacinia placerat, orci enim elementum mi, at pretium urna turpis eu mauris.";
+        const textToDisplay = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla consequat enim nisi, quis fermentum mi tristique sed. Morbi quis urna ac purus accumsan varius.";
         
         let i = 0;
         function typeText() {
@@ -195,6 +323,14 @@
             window.scrollBy(0, 2); // Adjust the scroll speed if necessary
         }, 20); // Auto-scroll interval (adjust if necessary)
 
+        // Disable manual scrolling (capture mouse wheel and touch events)
+        window.addEventListener('wheel', function(event) {
+            event.preventDefault();
+        }, { passive: false });
+
+        window.addEventListener('touchmove', function(event) {
+            event.preventDefault();
+        }, { passive: false });
     </script>
 
 </body>

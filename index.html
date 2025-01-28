@@ -161,8 +161,23 @@
         const celebrateButton = document.getElementById("celebrateButton");
         const fireworksCanvas = document.getElementById("fireworks");
         const floatingImages = document.getElementById("floatingImages");
-        const endDate = new Date("2025-02-02T00:00:00");
+        const endDate = new Date("2025-01-02T00:00:00");
         const h1tag = document.getElementById("h1tag");
+            const backgroundAudio = new Audio("Assets/Happy_Birthday_Ringtone_Flute.m4a");
+            backgroundAudio.loop = true;
+            celebrateButton.addEventListener('click', () => {
+                backgroundAudio.play()
+                    .then(() => {
+                        console.log("Audio started successfully.");
+                        startButton.textContent = "Music Playing 🎶";
+                        startButton.disabled = true; // Disable button after click
+                        startButton.style.background = '#ccc'; // Change button style
+                    })
+                    .catch((error) => {
+                        console.error("Error playing audio:", error);
+                    });
+            });
+            localStorage.setItem("isCLicked",true)
 
         // HTML entity for heart emoji
         const imageList = [
