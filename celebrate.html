@@ -172,6 +172,9 @@
         .bubble:nth-child(30) {
             background-image: radial-gradient(circle, rgba(255, 165, 0, 0.7), rgba(255, 20, 147, 0.7)); /* Orange to deep pink */
         }
+        p{
+            padding-bottom: 140%;
+        }
     </style>
 </head>
 <body>
@@ -303,14 +306,32 @@
         setInterval(moveBubbles, 16); // 60 FPS (16ms per frame)
 
         const textElement = document.getElementById('text');
-        const textToDisplay = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla consequat enim nisi, quis fermentum mi tristique sed. Morbi quis urna ac purus accumsan varius.";
-        
-        let i = 0;
+        const paragraphs = [
+            "Happy birthday! I hope you’re not looking for a present because my presence is my gift to you. ",
+            "On your birthday, I just want you to know that your happiness means the world to me. May this year bring you everything your heart desires!",
+            "A best friend is like a four-leaf clover hard to find and lucky to have. I’m beyond grateful to have you in my life! ",
+            "Some people come into our lives and leave footprints on our hearts. You, my bestie, left a whole mural of memories.",
+            "No matter where life takes us, I know you’ll always be my constant, my safe space, my best friend. ",
+            "We may not be related by blood, but our souls are connected in ways words can’t explain. ",
+            "The best friendships are not measured in years but in the moments that take our breath away."
+        ];
+
+        let paraIndex = 0; // Track which paragraph is being typed
+        let charIndex = 0; // Track character index within a paragraph
+
         function typeText() {
-            if (i < textToDisplay.length) {
-                textElement.textContent += textToDisplay.charAt(i);
-                i++;
-                setTimeout(typeText, 20); // Typing speed (20ms per character)
+            if (paraIndex < paragraphs.length) {
+                if (charIndex < paragraphs[paraIndex].length) {
+                    textElement.innerHTML += paragraphs[paraIndex].charAt(charIndex);
+                    charIndex++;
+                    setTimeout(typeText, 60); // Typing speed (20ms per character)
+                } else {
+                    // Paragraph is fully typed, add a <br> tag for spacing
+                    textElement.innerHTML += "<br><br>";
+                    charIndex = 0; // Reset character index
+                    paraIndex++;   // Move to the next paragraph
+                    setTimeout(typeText, 500); // Small delay before next paragraph starts typing
+                }
             } else {
                 // Ensure page scrolls to the bottom when text finishes typing
                 window.scrollTo(0, document.body.scrollHeight);
